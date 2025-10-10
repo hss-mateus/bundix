@@ -154,6 +154,14 @@ class Bundix
 
     def fetch_local_hash(spec)
       platform = Gem::Platform::RUBY # default platform value
+
+      if defined?(spec.source.checksum_store)
+        locked_spec = spec.source.checksum_store.to_lock(spec)
+        hash = Bundler::Checksum.from_lock(locked_spec, "").digest
+        platform = spec.platform.to_s
+        return format_hash(hash), platform if hash
+      end
+
       has_platform = spec.platform && spec.platform != Gem::Platform::RUBY
       name_version = "#{spec.name}-#{spec.version}"
       filename = has_platform ? "#{name_version}-*" : name_version
