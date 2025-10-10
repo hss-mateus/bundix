@@ -11,10 +11,6 @@ class TestConvert < Minitest::Test
       format_hash(Digest::SHA256.hexdigest(args.to_s))
     end
 
-    def nix_prefetch_git(*args)
-      JSON.generate('sha256' => format_hash(Digest::SHA256.hexdigest(args.to_s)))
-    end
-
     def fetch_remote_hash(spec, remote)
       hash = Digest::SHA256.hexdigest([remote, spec.full_name].join("::"))
       [hash, spec.platform&.to_s]

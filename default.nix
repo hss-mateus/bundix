@@ -1,4 +1,4 @@
-{ pkgs, ruby, bundler, nix, nix-prefetch-git }:
+{ pkgs, ruby, bundler, nix }:
 
 pkgs.stdenv.mkDerivation rec {
   version = "0.0.7";
@@ -9,7 +9,6 @@ pkgs.stdenv.mkDerivation rec {
     mkdir -p $out
     makeWrapper $src/bin/bundix $out/bin/bundix \
       --suffix PATH : "${nix.out}/bin" \
-      --prefix PATH : "${nix-prefetch-git.out}/bin" \
       --prefix PATH : "${bundler.out}/bin" \
       --prefix PATH : "${ruby}/bin" \
       --set GEM_PATH "${bundler}/${bundler.ruby.gemPath}"

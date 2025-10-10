@@ -29,7 +29,7 @@
       bundix = pkgs.callPackage ./default.nix {
         ruby = rubyCurrent;
         inherit pkgs bundler;
-        inherit (pkgs) nix nix-prefetch-git;
+        inherit (pkgs) nix;
       };
     in {
       packages.default = bundix;

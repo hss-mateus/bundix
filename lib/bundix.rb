@@ -35,7 +35,6 @@ end
 class Bundix
   NIX_INSTANTIATE = 'nix-instantiate'
   NIX_PREFETCH_URL = 'nix-prefetch-url'
-  NIX_PREFETCH_GIT = 'nix-prefetch-git'
   NIX_HASH = 'nix-hash'
   NIX_SHELL = 'nix-shell'
 

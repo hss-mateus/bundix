@@ -103,27 +103,6 @@ class Bundix
       nil
     end
 
-    def nix_prefetch_git(uri, revision, submodules: false)
-      home = ENV["HOME"]
-      ENV["HOME"] = "/homeless-shelter"
-
-      uri_parsed = URI(uri)
-      if %w[http https].include?(uri_parsed.scheme) && !uri_parsed.user
-        inject_credentials_from_bundler_settings(uri_parsed)
-        uri = uri_parsed.to_s
-      end
-
-      args = []
-      args << "--url" << uri
-      args << "--rev" << revision
-      args << "--hash" << "sha256"
-      args << "--fetch-submodules" if submodules
-
-      sh(NIX_PREFETCH_GIT, *args)
-    ensure
-      ENV["HOME"] = home
-    end
-
     NIX_BASE32 = "0123456789abcdfghijklmnpqrsvwxyz".freeze
 
     def format_hash(hash)
