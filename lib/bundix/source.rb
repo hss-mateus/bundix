@@ -282,12 +282,8 @@ class Bundix
       revision = spec.source.options.fetch("revision")
       uri = spec.source.options.fetch("uri")
       submodules = !spec.source.submodules.nil?
-      output = fetcher.nix_prefetch_git(uri, revision, submodules: submodules)
-      # FIXME: this is a hack, we should separate $stdout/$stderr in the sh call
-      hash = JSON.parse(output[/({[^}]+})\s*\z/m])["sha256"]
-      raise "couldn't fetch hash for #{spec.full_name}" unless hash
 
-      puts "#{hash} => #{uri}" if $VERBOSE
+      puts "#{revision} => #{uri}" if $VERBOSE
 
       {
         "version" => spec.version.to_s,
@@ -295,7 +291,6 @@ class Bundix
           "type" => "git",
           "url" => uri.to_s,
           "rev" => revision,
-          "sha256" => hash,
           "fetchSubmodules" => submodules,
         },
       }
