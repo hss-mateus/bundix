@@ -1,21 +1,17 @@
-{ pkgs, ruby, bundler, nix }:
+{
+  pkgs,
+  ruby,
+  nix,
+}:
 
-pkgs.stdenv.mkDerivation rec {
+pkgs.buildRubyGem rec {
   version = "0.0.7";
-  name = "bundix";
+  gemName = "bundix";
   src = ./.;
 
-  installPhase = ''
-    mkdir -p $out
-    makeWrapper $src/bin/bundix $out/bin/bundix \
-      --suffix PATH : "${nix.out}/bin" \
-      --prefix PATH : "${bundler.out}/bin" \
-      --prefix PATH : "${ruby}/bin" \
-      --set GEM_PATH "${bundler}/${bundler.ruby.gemPath}"
-  '';
+  inherit ruby;
 
-  nativeBuildInputs = [ pkgs.makeWrapper ];
-  buildInputs = [ bundler ];
+  propagatedBuildInputs = [ nix ];
 
   meta = {
     inherit version;
@@ -28,7 +24,10 @@ pkgs.stdenv.mkDerivation rec {
     '';
     homepage = "https://github.com/inscapist/bundix";
     license = "MIT";
-    maintainers = with pkgs.lib.maintainers; [ manveru zimbatm inscapist ];
-    platforms = pkgs.lib.platforms.all;
+    maintainers = with pkgs.lib.maintainers; [
+      manveru
+      zimbatm
+      inscapist
+    ];
   };
 }

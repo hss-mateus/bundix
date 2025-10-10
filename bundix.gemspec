@@ -11,7 +11,8 @@ Gem::Specification.new do |s|
   s.description = 'Creates Nix packages from Gemfiles.'
   s.authors = ['Xilef']
   s.files = Dir['bin/*'] +
-            Dir['lib/**/*.{rb,nix,erb}']
+            Dir['lib/**/*.{rb,nix,erb}'] +
+            Dir['template/**/*.erb']
   s.bindir = 'bin'
   s.executables = ['bundix']
   s.add_runtime_dependency 'bundler', '>= 2.4'

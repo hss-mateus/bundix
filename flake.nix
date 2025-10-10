@@ -18,17 +18,15 @@
     eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
 
-      rubyCurrent = pkgs.ruby_3_3;
+      rubyCurrent = pkgs.ruby_3_4;
 
       ruby = rubyCurrent.withPackages (ps: with ps; [
-        minitest rake solargraph rubocop pry
+        base64 minitest rake solargraph rubocop pry
       ]);
-
-      bundler = pkgs.bundler.override { ruby = rubyCurrent; };
 
       bundix = pkgs.callPackage ./default.nix {
         ruby = rubyCurrent;
-        inherit pkgs bundler;
+        inherit pkgs;
         inherit (pkgs) nix;
       };
     in {
@@ -40,7 +38,7 @@
       };
 
       devShells.default = pkgs.mkShell {
-        buildInputs = [ ruby bundler bundix pkgs.rufo ];
+        buildInputs = [ ruby bundix pkgs.rufo ];
       };
     });
 }
